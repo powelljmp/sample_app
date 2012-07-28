@@ -37,4 +37,9 @@ describe Relationship do
   end
   
    
+  describe "when user is destroyed should no long be followed" do
+    before { followed.destroy  }
+    it { should_not respond_to(:relationship) }
+  end 
+   
 end

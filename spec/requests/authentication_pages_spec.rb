@@ -11,7 +11,8 @@ describe "Authentication" do
     it { should have_selector('title', text: 'Sign in') }
   end
   
-  
+
+ 
   describe "signin" do
     before { visit signin_path }
 
@@ -46,11 +47,12 @@ describe "Authentication" do
     
   end
   
-  
+ 
   
    describe "authorization" do
-
-    describe "for non-signed-in users" do
+     
+     
+    describe "as non-admin user" do
       let(:user) { FactoryGirl.create(:user) }
       let(:non_admin) { FactoryGirl.create(:user) }
       
@@ -60,8 +62,13 @@ describe "Authentication" do
         before { delete user_path(user) }
         specify { response.should redirect_to(root_path) }        
       end
+    end
+
+    describe "for non-signed-in users" do
+      let(:user) { FactoryGirl.create(:user) }
+    
       
-       describe "in the Users controller" do
+      describe "in the Users controller" do
 
         describe "visiting the edit page" do
           before { visit edit_user_path(user) }
@@ -90,6 +97,7 @@ describe "Authentication" do
         
       end
     
+  
       describe "when attempting to visit a protected page" do
         before do
           visit edit_user_path(user)
@@ -99,11 +107,11 @@ describe "Authentication" do
         end
 
         describe "after signing in" do
-
           it "should render the desired protected page" do
             page.should have_selector('title', text: 'Edit user')
           end
         end
+        
       end
       
       
@@ -122,7 +130,6 @@ describe "Authentication" do
       
       
       describe "in the Microposts controller" do
-
         describe "submitting to the create action" do
           before { post microposts_path }
           specify { response.should redirect_to(signin_path) }
@@ -135,7 +142,7 @@ describe "Authentication" do
       end
       
     end
-    
+   
     
     
     
@@ -154,9 +161,8 @@ describe "Authentication" do
         specify { response.should redirect_to(root_path) }
       end
     end
-    
-    
-    
+=begin      
+=end 
   end
-  
+   
 end

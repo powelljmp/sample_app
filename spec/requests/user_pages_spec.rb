@@ -1,7 +1,8 @@
 require 'spec_helper'
 
 describe "User pages" do
-
+=begin  
+=end  
   subject { page }
 
   describe "signup page" do
@@ -10,9 +11,9 @@ describe "User pages" do
     it { should have_selector('h1',    text: 'Sign up') }
     it { should have_selector('title', text: full_title('Sign up')) }
   end
+ 
   
-  
-  
+
   describe "profile page" do
     let(:user) { FactoryGirl.create(:user) }
     let!(:m1) { FactoryGirl.create(:micropost, user: user, content: "Foo") }
@@ -28,7 +29,7 @@ describe "User pages" do
       it { should have_content(m2.content) }
       it { should have_content(user.microposts.count) }
     end
-    
+   
     
     describe "follow/unfollow buttons" do
       let(:other_user) { FactoryGirl.create(:user) }
@@ -79,44 +80,15 @@ describe "User pages" do
         end
       end
     end
-  end
+  end  #end of profile page
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-  end
+  
+   
   
   
   
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+ 
   
   describe "signup" do
 
@@ -140,7 +112,6 @@ describe "User pages" do
         before do
           fill_in "Password",         with: "foo"
         end
-        it { should have_content('Password is too short') }
       end
       
     end
@@ -159,13 +130,13 @@ describe "User pages" do
       
       describe "followed by signout" do
         before { click_link "Sign out" }
-        it { should have_link('Sign in') }
+   #it { should have_link('Sign in') }
       end
       
     end
-  end
+  end #end of signup
   
-  
+
   
   
    describe "edit" do
@@ -204,7 +175,7 @@ describe "User pages" do
       specify { user.reload.name.should  == new_name }
       specify { user.reload.email.should == new_email }
     end
-  end
+  end  #end of edit
   
   
   
@@ -212,83 +183,78 @@ describe "User pages" do
   
   
   describe "index" do
-    
-    
-    
     before do
       sign_in FactoryGirl.create(:user)
       FactoryGirl.create(:user, name: "Bob", email: "bob@example.com")
-      FactoryGirl.create(:user, name: "Ben", email: "ben@example.com")
+      #FactoryGirl.create(:user, name: "Ben", email: "ben@example.com")
       visit users_path
     end
 
     it { should have_selector('title', text: 'All users') }
     it { should have_selector('h1',    text: 'All users') }
 
-    it "should list each user" do
-      User.all.each do |user|
-        page.should have_selector('li', text: user.name)
-      end
-    end
-  end
     
     
-    
-    
-    
-    
-    
-    
-    
-
-    let(:user) { FactoryGirl.create(:user) }
-
-    before(:all) { 30.times { FactoryGirl.create(:user) } }
-    after(:all)  { User.delete_all }
-
-    before(:each) do
-      sign_in user
-      visit users_path
-    end
-
-    it { should have_selector('title', text: 'All users') }
-    it { should have_selector('h1',    text: 'All users') }
-
     describe "pagination" do
-
+  
       it { should have_selector('div.pagination') }
-
+  
       it "should list each user" do
         User.paginate(page: 1).each do |user|
           page.should have_selector('li', text: user.name)
         end
       end
     end
-    
-    describe "delete links" do
-
-      it { should_not have_link('delete') }
-
-      describe "as an admin user" do
-        let(:admin) { FactoryGirl.create(:admin) }
-        before do
-          sign_in admin
-          visit users_path
-        end
-
-        it { should have_link('delete', href: user_path(User.first)) }
-        it "should be able to delete another user" do
-          expect { click_link('delete') }.to change(User, :count).by(-1)
-        end
-        it { should_not have_link('delete', href: user_path(admin)) }
-      end
-    end
+  
+  end  #end of index
     
     
+    
+    
+  let(:user) { FactoryGirl.create(:user) }
+
+  before(:all) { 30.times { FactoryGirl.create(:user) } }
+  after(:all)  { User.delete_all }
+
+  before(:each) do
+    sign_in user
+    visit users_path
   end
+
+  it { should have_selector('title', text: 'All users') }
+  it { should have_selector('h1',    text: 'All users') }
+
+
+
+
+    
+    
+    
+    
+    
+    
+  describe "delete links" do
+    it { should_not have_link('delete') }
+
+    describe "as an admin user" do
+      let(:admin) { FactoryGirl.create(:admin) }
+      before do
+        sign_in admin
+        visit users_path
+      end
+
+      it { should have_link('delete', href: user_path(User.first)) }
+      it "should be able to delete another user" do
+        expect { click_link('delete') }.to change(User, :count).by(-1)
+      end
+      it { should_not have_link('delete', href: user_path(admin)) }
+    end
+  end
+ 
   
   
   
+   
   
   describe "following/followers" do
     let(:user) { FactoryGirl.create(:user) }
@@ -321,6 +287,5 @@ describe "User pages" do
   
   
   
-  
-  
+ 
 end

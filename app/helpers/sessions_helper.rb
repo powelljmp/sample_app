@@ -22,13 +22,13 @@ module SessionsHelper
   end
   
    def signed_in_user
-      unless signed_in?
-        store_location
-        redirect_to signin_path, notice: "Please sign in."
-      end
+    unless signed_in?
+      store_location
+      redirect_to signin_path, notice: "Please sign in."
     end
+  end
   
-   def sign_out
+  def sign_out
     self.current_user = nil
     cookies.delete(:remember_token)
   end

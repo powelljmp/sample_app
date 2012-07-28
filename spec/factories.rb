@@ -14,5 +14,7 @@ FactoryGirl.define do
     content "Lorem ipsum"
     user
   end
+  
+  
 end
 
